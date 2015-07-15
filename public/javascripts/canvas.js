@@ -1,6 +1,7 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var selection = document.getElementById('shape').value;
+var random = document.getElementById('random');
 
 //Shape class
 function Shape(x, y, w, c, s) {
@@ -46,7 +47,6 @@ Circle.prototype.draw = function(x, y, c) {
 };
 //render Rectangle to screen
 Rectangle.prototype.draw = function(x, y, c) {
-
     ctx.beginPath();
     ctx.rect(x, y, 200, 100);
     ctx.fillStyle = c;
@@ -54,7 +54,6 @@ Rectangle.prototype.draw = function(x, y, c) {
     ctx.lineWidth = 2;
     ctx.strokeStyle = 'black';
     ctx.stroke();
-
 };
 
 //new instance of square
@@ -73,7 +72,7 @@ canvas.addEventListener('click', function() {
     var y = event.clientY; // Get the vertical coordinate on click
     x -= canvas.offsetLeft;
     y -= canvas.offsetTop;
-    console.log(selection);
+
     if (selection.toUpperCase() === "SQUARE") {
         square.draw(x, y, 20, c);
     } else if (selection.toUpperCase() === "CIRCLE") {
@@ -81,6 +80,35 @@ canvas.addEventListener('click', function() {
     } else if (selection.toUpperCase() === "RECTANGLE") {
         rectangle.draw(x, y, c);
     }
+});
+
+var randomColor = function() {
+    var color;
+    var c = document.getElementById('color');
+    var i = Math.floor((Math.random() * c.length) + 0);
+    color = c[i].value;
+    return color;
+};
+
+random.addEventListener('click', function() {
+    var cords = [];
+    var x ;
+    var y;
+    var w;
+    for (var j = 0; j < 3; j++) {
+        
+        circle.draw(x, y, randomColor());
+        rectangle.draw(x, y, randomColor());
+        square.draw(x, y, w, randomColor());
+    for (var i = 0; i < 20; i++) {
+        // var index = Math.floor(Math.random() * c.length);
+        x = Math.floor((Math.random() * 1000) + 1);
+        w = Math.floor((Math.random() * 50) + 1);
+        y = Math.floor((Math.random() * 500) + 1);
+
+
+    }
+  }
 });
 
 // var render = function(x, y, c) {
