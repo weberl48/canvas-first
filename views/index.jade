@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  div
+    canvas(id="canvas" height='500', width='1000')
+  div
+    form
+      label(for="shape") Choose Shape:
+      select(id="shape" name="shape")
+        option(id="rectangle" name="rectangle") Square
+        option(id="rectangle" name="rectangle") Rectangle
+      label(for="color") Choose Color:
+        
