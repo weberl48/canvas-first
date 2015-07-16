@@ -3,6 +3,42 @@ var ctx = canvas.getContext('2d');
 var selection = document.getElementById('shape').value;
 var random = document.getElementById('random');
 
+
+var shapes= [];
+canvas.addEventListener('click', function() {
+    //grabing the selected shape value
+    var selection = document.getElementById('shape').value;
+    //grabbing the selected color value
+    var c = document.getElementById('color').value;
+    //get width
+    var w = document.getElementById("width").value;
+
+    var x = event.clientX; // Get the horizontal coordinate on click
+    var y = event.clientY; // Get the vertical coordinate on click
+    x -= canvas.offsetLeft;
+    y -= canvas.offsetTop;
+
+    if (selection.toUpperCase() === "SQUARE") {
+        //new instance of square
+      var square = new Square(x,y,w,c); // params 10,10,20,"blue"
+        //adding instance to shapes array
+        shapes.push(square);
+        square.draw(x, y, w, c);
+    } else if (selection.toUpperCase() === "CIRCLE") {
+        //new instance of ciricle
+        var circle = new Circle(x,y,w,c);
+        //adding instance to shapes array
+        shapes.push(circle);
+        //new instanve of Rectangle
+        circle.draw(x, y, w, c);
+    } else if (selection.toUpperCase() === "RECTANGLE") {
+        var rectangle = new Rectangle(x,y,w,c);
+        //adding instance to shapes array
+        shapes.push(rectangle);
+        //location of shapes based on event.X,Y
+        rectangle.draw(x, y,w*2, w, c);
+    }
+});
 //Shape class
 function Shape(x, y, w, c, s) {
     this.x = x;
@@ -38,17 +74,17 @@ Square.prototype.draw = function(x, y, w, c) {
     ctx.fillRect(x, y, w, w);
 };
 //render circle to screen
-Circle.prototype.draw = function(x, y, c) {
+Circle.prototype.draw = function(x, y, w,c) {
     ctx.fillStyle = c;
     ctx.beginPath();
-    ctx.arc(x, y, 50, 0, Math.PI * 2, true);
+    ctx.arc(x, y, w/2, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.fill();
 };
 //render Rectangle to screen
-Rectangle.prototype.draw = function(x, y, c) {
+Rectangle.prototype.draw = function(x, y,w,h,c) {
     ctx.beginPath();
-    ctx.rect(x, y, 200, 100);
+    ctx.rect(x, y, w, h);
     ctx.fillStyle = c;
     ctx.fill();
     ctx.lineWidth = 2;
@@ -56,50 +92,33 @@ Rectangle.prototype.draw = function(x, y, c) {
     ctx.stroke();
 };
 
-//new instance of square
-var square = new Square(); // params 10,10,20,"blue"
-//new instance of ciricle
-var circle = new Circle();
-//new instanve of Rectangle
-var rectangle = new Rectangle();
-//location of shapes based on event.X,Y
-canvas.addEventListener('click', function() {
-    //grabing the selected shape value
-    var selection = document.getElementById('shape').value;
-    //grabbing the selected color value
-    var c = document.getElementById('color').value;
-    var x = event.clientX; // Get the horizontal coordinate on click
-    var y = event.clientY; // Get the vertical coordinate on click
-    x -= canvas.offsetLeft;
-    y -= canvas.offsetTop;
 
-    if (selection.toUpperCase() === "SQUARE") {
-        square.draw(x, y, 20, c);
-    } else if (selection.toUpperCase() === "CIRCLE") {
-        circle.draw(x, y, c);
-    } else if (selection.toUpperCase() === "RECTANGLE") {
-        rectangle.draw(x, y, c);
-    }
-});
+
+
 
 var randomColor = function() {
-    var color;
-    var c = document.getElementById('color');
-    var i = Math.floor((Math.random() * c.length) + 0);
-    color = c[i].value;
-    return color;
+    // 16777215 == ffffff in decimal
+    var c = '#'+Math.floor(Math.random()*16777215).toString(16);
+
+
+    return c;
 };
 
 random.addEventListener('click', function() {
-    var cords = [];
-    var x ;
-    var y;
-    var w;
+        var x;
+        var y;
+        var w;
     for (var j = 0; j < 3; j++) {
-        
-        circle.draw(x, y, randomColor());
-        rectangle.draw(x, y, randomColor());
-        square.draw(x, y, w, randomColor());
+        var c=randomColor();
+        //new square instance each time through loop
+        var square = new Square(x,y,w,c);
+        square.draw(x, y, w, c);
+        //new circle instance each time through loop
+        var circle = new Circle(x,y,w,c);
+        circle.draw(x, y, w, c);
+        //new rectangle instance each time through loop
+        var rectangle = new Rectangle(x,y,w,c);
+        rectangle.draw(x, y,w*2, w, c);
     for (var i = 0; i < 20; i++) {
         // var index = Math.floor(Math.random() * c.length);
         x = Math.floor((Math.random() * 1000) + 1);

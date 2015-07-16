@@ -13,9 +13,10 @@ block content
         option(id="square" name="square") Rectangle
         option(id="circle" name="circle") Circle
       label(for="color") Choose Color:
-      select(id="color" name="color")
-        option(id="red" name="red") Red
-        option(id="blue" name="blue") Blue
-        option(id="yellow" name="yellow") Yellow
+      input(type="color" name="color" id="color") 
+      label(for="width") Width
+        input(type='range', min='0', max='400' id="width")
+
+      
       button(type="button" name="random" id="random" ) Random Output
           
